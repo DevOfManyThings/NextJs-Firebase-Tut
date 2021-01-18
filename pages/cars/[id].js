@@ -10,11 +10,18 @@ export default function Car({car}) {
             <title>{car.color} {car.id}</title>
         </head>
         <h1>Hello {id}</h1>
-        <img src={car.image} alt={"Image of an " + car.color + " " + car.id}/>
+        <img src={car.image} alt={`Image of an ${car.color} ${car.id}`}/>
     </>)
 }
 
+export async function getServerSideProps({params}){
+    const req = await fetch(`http://localhost:3000/${params.id}.json`);
+    const data = await req.json();
 
+    return {
+        props: {car: data},
+    }
+}
 export async function getStaticProps({ params }) {
     const req = await fetch(`http://localhost:3000/${params.id}.json`);
     const data = await req.json();
